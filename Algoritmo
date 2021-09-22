@@ -37,11 +37,11 @@ test =  pd.read_csv("Downloads/test_colonia.csv")
 test
 
 ##Diccionario con las colonias y los códigos de asignación a cada una
-colonias = {'portales sur':365, 'portales norte':363, 'narvarte poniente':305, 'santa maria la ribera':452,
-            'escandon i seccion':148, 'anahuac i seccion':46, 'roma norte':392, 'carola':87, 
-            'san simon ticumac':440, 'santa cruz atoyac':444, 'san pedro de los pinos':436, 'algarin':20,
-            'obrera':319, 'pedregal de carrasco':339, 'independencia':196,  'san rafael':438, 'alamos':15,
-            'santa maria nonoalco':454, 'janitzio':204}
+colonias = {'Portales Sur':365,'Portales Norte':363,'Narvarte Poniente':305,'Santa María La Ribera':452,
+            'Escandón I Secc':148,'Anáhuac I Secc':46,'Roma Norte':392,'carola':87,'San Simón Ticumac':440,
+            'Santa Cruz Atoyac':444,'San Pedro de los Pinos':436,'Algarín':20,'Obrera':319,
+            ' pedregal de carrasco':339,'Independencia':196,'San Rafael':438,'Álamos':15,
+            'Santa María Nonoalco':454,' janitzio':204}
             
             
             
@@ -54,68 +54,72 @@ def modelo_regresor(X):
     model_ridge = joblib.load('Downloads/modelo_entrenado_Ridge.pkl')
     model_poly = joblib.load('Downloads/modelo_entrenado_poly.pkl')
     model_SVM = joblib.load('Downloads/modelo_entrenado_svm.pkl')
+    model_knnrgen = joblib.load('Downloads/modelo_entrenado_knnrgeneral.pkl')
+    
     x4 = np.array(X[0:4]).reshape(1,-1) ## shape(1,4) para empatar con modelos entrenados
     
-    if X[4] == colonias.get('alamos'):#colonias.get('portales sur'): #Portales  sur
+    if X[4] == colonias.get('Álamos'):#colonias.get('portales sur'): #Portales  sur
         R = model_XGB.get(15).predict(x4)*0.78*x4[0][0]
-        
-    elif X[4] == colonias.get('portales sur'): #Portales  sur
+        print('XGBoost')
+    elif X[4] == colonias.get('Portales Sur'): #Portales  sur
         R = model_knnr.get(365).predict(x4)*0.78*x4[0][0]
-        
-    elif X[4]== colonias.get('portales norte'): #POrtales norte
+        print('KNNR')
+    elif X[4]== colonias.get('Portales Norte'): #POrtales norte
         R = model_net.get(363).predict(x4)*0.78*x4[0][0]
-        
-    elif X[4]== colonias.get('narvarte poniente'): #Narvarte Poniente
+        print('ELASTIC')
+    elif X[4]== colonias.get('Narvarte Poniente'): #Narvarte Poniente
         R = model_poly.get(305)[1].predict(model_poly.get(305)[0].fit_transform(x4))*0.78*x4[0][0]
-        
-    elif X[4]== colonias.get('santa maria la ribera'): #santa maria la ribera
+        print('POLY')
+    elif X[4]== colonias.get('Santa María La Ribera'): #santa maria la ribera
         R = model_net.get(452).predict(x4)*0.78*x4[0][0]
-    
-    elif X[4]== colonias.get('escandon i seccion'): #escandon i seccion
+        print('ELASTIC')
+    elif X[4]== colonias.get('Escandón I Secc'): #escandon i seccion
         R = model_knnr.get(148).predict(x4)*0.78*x4[0][0]
-        
-    elif X[4]== colonias.get('anahuac i seccion'): #anahuac i seccion
+        print('KNNR')
+    elif X[4]== colonias.get('Anáhuac I Secc'): #anahuac i seccion
         R = model_knnr.get(46).predict(x4)*0.78*x4[0][0]
-    
-    elif X[4]== colonias.get('roma norte'): #roma norte
+        print('KNNR')
+    elif X[4]== colonias.get('Roma Norte'): #roma norte
         R = model_net.get(392).predict(x4)*0.78*x4[0][0]
     
     elif X[4]== colonias.get('carola'): #carola
         R = model_knnr.get(87).predict(x4)*0.78*x4[0][0]
-    
-    elif X[4]== colonias.get('san simon ticumac'): #san simon ticumac
+        print('KNNR')
+    elif X[4]== colonias.get('San Simón Ticumac'): #san simon ticumac
         R = model_knnr.get(440).predict(x4)*0.78*x4[0][0]
-    
-    elif X[4]== colonias.get('santa cruz atoyac'): #santa cruz atoyac
+        print('KNNR')
+    elif X[4]== colonias.get('Santa Cruz Atoyac'): #santa cruz atoyac
         R = 45287*0.78*x4[0][0]
-    
-    elif X[4]== colonias.get('san pedro de los pinos'): #san pedro de los pinos
+        print('PROM')
+    elif X[4]== colonias.get('San Pedro de los Pinos'): #san pedro de los pinos
         R = model_SVM.get(436).predict(x4)*0.78*x4[0][0]
-    
-    elif X[4]==colonias.get('algarin'): #algarin
+        print('SVM')
+    elif X[4]==colonias.get('Algarín'): #algarin
         R = model_knnr.get(20).predict(x4)*0.78*x4[0][0]
-    
-    elif X[4]== colonias.get('obrera'): #obrera
+        print('KNNR')
+    elif X[4]== colonias.get('Obrera'): #obrera
         R = model_knnr.get(319).predict(x4)*0.78*x4[0][0]
-    
+        print('KNNR')
     elif X[4]== colonias.get('pedregal de carrasco'): #pedregal de carrasco
         R = model_poly.get(339)[1].predict(model_poly.get(339)[0].fit_transform(x4))*0.78*x4[0][0]
-    
-    elif X[4]== colonias.get('independencia'): #independencia
+        print('POLY')
+    elif X[4]== colonias.get('Independencia'): #independencia
         R = model_XGB.get(196).predict(x4)*0.78*x4[0][0]
-        
-    elif X[4]== colonias.get('san rafael'): #san rafael
+        print('XGBoost')
+    elif X[4]== colonias.get('San Rafael'): #san rafael
         R = model_knnr.get(438).predict(x4)*0.78*x4[0][0]
-    
-    elif X[4]== colonias.get('santa maria nonoalco'): #santa maria nonoalco
+        print('KNNR')
+    elif X[4]== colonias.get('Santa María Nonoalco'): #santa maria nonoalco
         R = model_XGB.get(454).predict(x4)*0.78*x4[0][0]
-    
+        print('XGBoost')
     elif X[4]== colonias.get('janitzio'): #janitzio204: #janitzio
-         R = 33759*model_knnr.get(204).predict(x4)*0.78*x4[0][0]
-        
+        R = 33759*model_knnr.get(204).predict(x4)*0.78*x4[0][0]
+        print('KNNR')
     else: 
-        R = print('No hay modelo para esa colonia') 
-    return R     
+        #R = print('No hay modelo para esa colonia') 
+        R = model_knnrgen.predict(x4)*0.78*x4[0][0]
+        print('General')
+    return R        
 
 
 ###Loop para probar en los datos de prueba
